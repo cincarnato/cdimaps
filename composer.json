@@ -1,0 +1,45 @@
+{
+    "name":        "cdi/cdimaps",
+    "description": "Zend Framework 2 Module que permite utilizar maps desde php/zf2",
+    "type":        "library",
+    "license":     "WTFPL",
+    "keywords": [
+        "ZfcDatagrid",
+        "Datagrid",
+        "Datatable",
+        "module",
+        "zf2",
+        "Zend Framework",
+        "GoogleMaps",
+        "maps"
+    ],
+    
+    "authors": [{
+        "name": "Cristian Incarnato",
+        "email": "cristian.cdi@gmail.com"
+    }],
+    
+    "minimum-stability": "dev",
+    
+    "config": {
+    	"process-timeout": 5000
+    },
+
+    "require": {
+        "php": ">=5.3.3"
+    },
+    
+    "require-dev": {
+        "zendframework/zendframework": "~2.2",
+    },
+
+    
+    "autoload": {
+        "psr-0": {
+            "CdiMaps\\": "src/"
+        },
+         "classmap": [
+            "./Module.php"
+            ]
+    }
+}
