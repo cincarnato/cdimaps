@@ -1,0 +1,95 @@
+<?php
+$this->headScript()
+        ->appendFile('https://maps.google.com/maps/api/js?sensor=false', 'text/javascript')
+        ->appendFile('/js/markerwithlabel.js', 'text/javascript');
+
+echo $this->headScript();
+?>
+
+<div id="<?php echo $this->gmap->div_id; ?>" class="<?php echo $this->gmap->div_class; ?>" style="height: <?php echo $this->gmap->height; ?> ;width: <?php echo $this->gmap->width; ?>;" >
+
+
+</div>
+
+<script type="text/javascript">
+
+
+    function initialize() {
+
+
+
+//Defino el Centro del mapa
+        var center = new google.maps.LatLng(<?php echo $this->gmap->lat; ?>, <?php echo $this->gmap->lon; ?>);
+
+        var myOptions = {
+            zoom: <?php echo $this->gmap->zoom; ?>,
+            center: center,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+
+        var map = new google.maps.Map(document.getElementById("<?php echo $this->gmap->div_id; ?>"), myOptions);
+
+
+<?php if (count($this->gmap->getMarkers())): ?>
+
+    <?php foreach ($this->gmap->getMarkers() as $marker): ?>
+
+                <?php //var_dump($marker); ?>
+
+                var latlng_<?php echo $marker->name; ?> = new google.maps.LatLng(<?php echo $marker->lat; ?>,<?php echo $marker->lon; ?>);
+
+
+
+
+
+        <?php if ($marker->type == "number"): ?>
+                    var image_<?php echo $marker->name; ?> = new google.maps.MarkerImage(
+                            '/img/makerGoogle/smallSQBlueIcons/marker<?php echo $marker->number; ?>.png',
+                            new google.maps.Size(15, 15),
+                            new google.maps.Point(0, 0),
+                            new google.maps.Point(7, 7));
+
+                    var i = <?php echo $marker->number; ?>;
+
+                    var marker_<?php echo $marker->name; ?> = new MarkerWithLabel({
+                        position: latlng_<?php echo $marker->name; ?>,
+                        draggable: false,
+                        raiseOnDrag: false,
+                        map: map,
+                        icon: "<?php echo $marker->aIconLabelMarkers[$marker->iconLabelMarker]; ?>",
+                        labelContent: "" + i,
+                        labelAnchor: new google.maps.Point(11, 28),
+                        labelClass: "lss", // the CSS class for the label
+                        labelStyle: {opacity: 0.8},
+                        title: "<?php echo $marker->title; ?>"
+                    });
+
+
+        <?php endif; ?>
+
+
+        <?php if ($marker->type == "normal"): ?>
+                    var marker_<?php echo $marker->name; ?> = new google.maps.Marker({
+                        position: latlng_<?php echo $marker->name; ?>,
+                        map: map,
+                        title: "<?php echo $marker->title; ?>"
+                    });
+        <?php endif; ?>
+
+
+
+
+
+    <?php endforeach; ?>
+
+<?php endif; ?>
+
+//Fin del script initialize()
+    }
+
+
+    initialize();
+</script>
+
+
